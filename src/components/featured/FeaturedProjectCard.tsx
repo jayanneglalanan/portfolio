@@ -4,10 +4,11 @@ import type { Project } from "../../data/portfolio";
 type Props = {
   project: Project;
   isActive: boolean;
+  dragging?: boolean;
   onClick?: () => void;
 };
 
-export function FeaturedProjectCard({ project, isActive, onClick }: Props) {
+export function FeaturedProjectCard({ project, isActive, dragging, onClick }: Props) {
   const categoryMap: Record<string, string> = {
     "kapeflow-admin": "ADMIN PAGE",
     "hotel-de-susana": "BOOKING PAGE",
@@ -17,10 +18,14 @@ export function FeaturedProjectCard({ project, isActive, onClick }: Props) {
 
   return (
     <div
-      onClick={onClick}
+      onClick={() => {
+        if (dragging) return;
+        onClick?.();
+      }}
       role={isActive ? undefined : "button"}
       tabIndex={isActive ? undefined : 0}
       onKeyDown={(e) => {
+        if (dragging) return;
         if (!isActive && (e.key === "Enter" || e.key === " ")) {
           e.preventDefault();
           onClick?.();

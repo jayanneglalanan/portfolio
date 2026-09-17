@@ -9,6 +9,7 @@ type Props = {
 
 export function FeaturedProjects({ projects }: Props) {
   const [active, setActive] = useState(0);
+  const [dragging, setDragging] = useState(false);
   const shouldReduceMotion = useReducedMotion();
 
   const prev = useCallback(() => {
@@ -100,7 +101,12 @@ export function FeaturedProjects({ projects }: Props) {
                     className="md:hidden"
                     style={{ x: style.x > 0 ? 18 : style.x < 0 ? -18 : 0 } as any}
                   />
-                  <FeaturedProjectCard project={project} isActive={isActive} onClick={() => !isActive && goTo(idx)} />
+                  <FeaturedProjectCard
+                    project={project}
+                    isActive={isActive}
+                    dragging={dragging}
+                    onClick={() => !isActive && goTo(idx)}
+                  />
                 </div>
                 {/* Tablet override via hidden element for framer to lerp? Simplified: CSS media will adjust via JS resize is complex, keep desktop values and mobile peek */}
                 <style>{`@media (min-width: 768px) and (max-width: 1023px) {}`}</style>
@@ -114,14 +120,18 @@ export function FeaturedProjects({ projects }: Props) {
 
       {/* Swipe area for mobile - whole track handles drag */}
       <motion.div
-        className="absolute inset-0 md:hidden"
+        className="absolute inset-0 z-20 touch-pan-y select-none md:hidden will-change-transform cursor-grab active:cursor-grabbing overscroll-contain"
+        style={{ touchAction: "pan-y" } as any}
         drag="x"
-        dragElastic={0.14}
+        dragDirectionLock
+        dragElastic={0.22}
         dragConstraints={{ left: 0, right: 0 }}
         dragMomentum={false}
+        onDragStart={() => setDragging(true)}
         onDragEnd={(_, info) => {
-          if (info.offset.x < -60 || info.velocity.x < -500) next();
-          else if (info.offset.x > 60 || info.velocity.x > 500) prev();
+          window.setTimeout(() => setDragging(false), 120);
+          if (info.offset.x < -40 || info.velocity.x < -400) next();
+          else if (info.offset.x > 40 || info.velocity.x > 400) prev();
         }}
         aria-hidden="true"
       />
