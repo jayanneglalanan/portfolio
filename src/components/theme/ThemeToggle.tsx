@@ -1,3 +1,4 @@
+import { flushSync } from "react-dom";
 import { useEffect, useRef, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 
@@ -20,13 +21,18 @@ export function ThemeToggle() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const animatingRef = useRef(false);
 
-  // Sync theme to document — used by non-ViewTransition fallback and initial load
-  // During View Transition reveal, html,body transitions are disabled via .reveal-active
+  // Sync theme to document — fallback sync (when View Transition not used)
   useEffect(() => {
     const root = document.documentElement;
+    // Skip if already set synchronously via startViewTransition
+    if (root.dataset.theme === theme) {
+      const hasClass = root.classList.contains("dark");
+      if (hasClass === (theme === "dark")) return;
+    }
     const isDark = theme === "dark";
     root.classList.toggle("dark", isDark);
     root.dataset.theme = theme;
+    root.style.colorScheme = theme;
     try {
       localStorage.setItem("theme", theme);
     } catch {}
@@ -92,7 +98,9 @@ export function ThemeToggle() {
       Math.hypot(x, window.innerHeight - y),
       Math.hypot(window.innerWidth - x, window.innerHeight - y)
     );
-    const r = Math.ceil(maxRadius + 40);
+    // Guarantee coverage to bottom-left: use 150vmax as per spec (not just hypot)
+    const vmaxRadius = Math.ceil(1.5 * Math.max(window.innerWidth, window.innerHeight));
+    const r = Math.ceil(Math.max(maxRadius + 40, vmaxRadius));
 
     const root = document.documentElement;
     root.style.setProperty("--x", `${x}px`);
@@ -113,14 +121,23 @@ export function ThemeToggle() {
         animatingRef.current = false;
         if (btn) btn.disabled = false;
         root.classList.remove("reveal-active");
-      }, 750);
+      }, 650);
     };
 
     if (docWithVT.startViewTransition) {
       root.classList.add("reveal-active");
       const vt = docWithVT.startViewTransition(() => {
-        // Single reliable theme state update inside transition
-        setTheme(next);
+        // Update theme synchronously inside transition so new snapshot has correct bg (single state)
+        const isDarkNext = next === "dark";
+        document.documentElement.classList.toggle("dark", isDarkNext);
+        document.documentElement.dataset.theme = next;
+        document.documentElement.style.colorScheme = next;
+        try {
+          localStorage.setItem("theme", next);
+        } catch {}
+        flushSync(() => {
+          setTheme(next);
+        });
       });
       vt.finished.finally(() => {
         // Ensure theme class is committed and reveal completes
@@ -133,7 +150,7 @@ export function ThemeToggle() {
           animatingRef.current = false;
           btn.disabled = false;
         }
-      }, 900);
+      }, 800);
     } else {
       // Fallback browser: smooth 350ms specific transitions (background-color/color/border-color) — NOT transition: all
       // Do NOT force 750ms on fallback; let html,body 400ms handle it

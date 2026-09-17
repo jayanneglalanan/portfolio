@@ -44,8 +44,22 @@ export function FeaturedProjects({ projects }: Props) {
       }}
       className="relative overflow-hidden focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
     >
-      {/* Track — smaller on mobile to fit screen */}
-      <div className="relative mx-auto flex h-[360px] max-w-[920px] items-center justify-center overflow-visible px-5 py-6 sm:h-[380px] md:h-[420px] md:py-8">
+      {/* Track — smaller on mobile to fit screen, swipeable anywhere in cards */}
+      <motion.div
+        className="relative mx-auto flex h-[360px] max-w-[920px] items-center justify-center overflow-visible px-5 py-6 sm:h-[380px] md:h-[420px] md:py-8 touch-pan-y select-none overscroll-contain cursor-grab active:cursor-grabbing"
+        style={{ touchAction: "pan-y" } as any}
+        drag="x"
+        dragDirectionLock
+        dragElastic={0.22}
+        dragConstraints={{ left: 0, right: 0 }}
+        dragMomentum={false}
+        onDragStart={() => setDragging(true)}
+        onDragEnd={(_, info) => {
+          window.setTimeout(() => setDragging(false), 120);
+          if (info.offset.x < -40 || info.velocity.x < -400) next();
+          else if (info.offset.x > 40 || info.velocity.x > 400) prev();
+        }}
+      >
         <Lines />
         {/* Cards */}
         <div className="relative flex h-full w-full items-center justify-center">
@@ -114,27 +128,7 @@ export function FeaturedProjects({ projects }: Props) {
             );
           })}
         </div>
-      </div>
-
-
-
-      {/* Swipe area for mobile - whole track handles drag */}
-      <motion.div
-        className="absolute inset-0 z-20 touch-pan-y select-none md:hidden will-change-transform cursor-grab active:cursor-grabbing overscroll-contain"
-        style={{ touchAction: "pan-y" } as any}
-        drag="x"
-        dragDirectionLock
-        dragElastic={0.22}
-        dragConstraints={{ left: 0, right: 0 }}
-        dragMomentum={false}
-        onDragStart={() => setDragging(true)}
-        onDragEnd={(_, info) => {
-          window.setTimeout(() => setDragging(false), 120);
-          if (info.offset.x < -40 || info.velocity.x < -400) next();
-          else if (info.offset.x > 40 || info.velocity.x > 400) prev();
-        }}
-        aria-hidden="true"
-      />
+      </motion.div>
     </div>
   );
 }

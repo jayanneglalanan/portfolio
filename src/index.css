@@ -54,12 +54,28 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    min-height: 100%;
+    background: var(--bg);
+    background-color: var(--bg);
+    overflow-x: clip;
   }
   body {
     font-family: "Inter", system-ui, sans-serif;
     background: var(--bg);
+    background-color: var(--bg);
     color: var(--ink);
-    overflow-x: hidden;
+    overflow-x: clip;
+    min-height: 100vh;
+    min-height: 100dvh;
+    margin: 0;
+    padding: 0;
+  }
+  #root {
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--bg);
+    background-color: var(--bg);
+    isolation: isolate;
   }
   ::selection {
     background: rgba(120, 103, 199, 0.18);
@@ -73,12 +89,15 @@
     outline-offset: 2px;
   }
   /* Theme transition — specific properties only (never transition: all) */
-  /* During View Transition reveal, html,body transitions are disabled via .reveal-active to avoid double-animate */
+  /* During View Transition reveal, disable all color transitions to avoid double-animate */
   html, body {
     transition: background-color 350ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms cubic-bezier(0.4, 0, 0.2, 1), border-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
   }
   html.reveal-active,
-  html.reveal-active body {
+  html.reveal-active body,
+  html.reveal-active #root,
+  html.reveal-active .bg-bg,
+  html.reveal-active .ambient-light-inner {
     transition: none !important;
   }
 }
@@ -161,49 +180,59 @@ html.dark .ambient-light-inner,
 }
 
 /* View Transitions — circular reveal from toggle (top-right → bottom-left) */
-::view-transition-old(root),
-::view-transition-new(root) {
+::view-transition {
+  background: var(--bg);
+}
+::view-transition-group(root) {
+  animation: none;
+  background: var(--bg);
+}
+::view-transition-image-pair(root) {
+  isolation: auto;
+}
+::view-transition-old(root) {
   animation: none;
   mix-blend-mode: normal;
+  background: var(--bg);
+  z-index: 1;
 }
 ::view-transition-new(root) {
-  animation: reveal 750ms cubic-bezier(0.76, 0, 0.24, 1) both;
-  /* Soft edge via mask — feather the circular front (not a hard circle) */
-  -webkit-mask-image: radial-gradient(circle at var(--x) var(--y), black 88%, transparent 100%);
-  mask-image: radial-gradient(circle at var(--x) var(--y), black 88%, transparent 100%);
+  animation: theme-reveal 650ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  mix-blend-mode: normal;
+  background: var(--bg);
+  z-index: 2;
+}
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0px at var(--x, 100%) var(--y, 0%));
+  }
+  to {
+    clip-path: circle(var(--r, 150vmax) at var(--x, 100%) var(--y, 0%));
+  }
 }
 @keyframes reveal {
   from {
-    clip-path: circle(0px at var(--x) var(--y));
+    clip-path: circle(0px at var(--x, 100%) var(--y, 0%));
   }
   to {
-    clip-path: circle(var(--r) at var(--x) var(--y));
+    clip-path: circle(var(--r, 150vmax) at var(--x, 100%) var(--y, 0%));
   }
 }
-/* Add subtle R+40 soft edge: second layer via ::view-transition-new(root)::after is not supported,
-   so we rely on mask feather + theme-reveal::after for fallback.
-   During reveal, text/border/dot transitions are masked by clip-path, so they don't flash outside. */
-/* Fallback overlay for non-ViewTransition browsers — 350ms specific, not 750ms */
+/* Fallback overlay for non-ViewTransition browsers */
 .theme-reveal {
   position: fixed;
   inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
   z-index: 9999;
   pointer-events: none;
   contain: paint;
+  overflow: hidden;
   will-change: clip-path;
-  clip-path: circle(0 at var(--x) var(--y));
-  -webkit-mask-image: radial-gradient(circle at var(--x) var(--y), black 88%, transparent 100%);
-  mask-image: radial-gradient(circle at var(--x) var(--y), black 88%, transparent 100%);
-  transition: clip-path 350ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-.theme-reveal::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at var(--x) var(--y), rgba(139, 123, 216, 0.05) 0%, transparent 42%);
-  opacity: 0.6;
-  filter: blur(8px);
-  pointer-events: none;
+  clip-path: circle(0 at var(--x, 100%) var(--y, 0%));
+  transition: clip-path 650ms cubic-bezier(0.22, 1, 0.36, 1);
+  background: var(--bg);
 }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root),
