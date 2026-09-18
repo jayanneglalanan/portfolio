@@ -1,12 +1,21 @@
 import { useState } from "react";
 import { portfolio } from "../../data/portfolio";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 export function EmailFab() {
   const [copied, setCopied] = useState(false);
   const email = portfolio.contact.email;
   const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
+  const isMobile = useIsMobile();
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Mobile: native mailto (+ copy), FAB is mobile-only md:hidden
+    if (isMobile) {
+      navigator.clipboard?.writeText(email).catch(() => {});
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+      return;
+    }
     e.preventDefault();
     navigator.clipboard?.writeText(email).catch(() => {});
     setCopied(true);

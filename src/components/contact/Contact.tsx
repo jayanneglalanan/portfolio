@@ -1,13 +1,22 @@
 import { useState } from "react";
 import { portfolio } from "../../data/portfolio";
 import { SocialLinks } from "../hero/SocialLinks";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 export function Contact() {
   const [copied, setCopied] = useState(false);
   const email = portfolio.contact.email;
   const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
+  const isMobile = useIsMobile();
 
   const handleEmailClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    // Mobile: pointer coarse OR ≤640px → native mailto (+ copy for feedback)
+    if (isMobile) {
+      navigator.clipboard?.writeText(email).catch(() => {});
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+      return;
+    }
     e.preventDefault();
     navigator.clipboard?.writeText(email).catch(() => {});
     setCopied(true);

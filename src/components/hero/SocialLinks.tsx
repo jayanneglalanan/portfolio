@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { portfolio } from "../../data/portfolio";
 import type { SocialLink } from "../../data/portfolio";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 type SocialLinksProps = {
   links: readonly SocialLink[];
@@ -8,13 +9,20 @@ type SocialLinksProps = {
 
 export function SocialLinks({ links }: SocialLinksProps) {
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const isMobile = useIsMobile();
 
   const handleEmailClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     const isEmail = href.startsWith("mailto:");
     if (!isEmail) return;
-    e.preventDefault();
     const email = portfolio.contact.email;
     const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}`;
+    if (isMobile) {
+      navigator.clipboard?.writeText(email).catch(() => {});
+      setCopiedEmail(true);
+      window.setTimeout(() => setCopiedEmail(false), 2000);
+      return;
+    }
+    e.preventDefault();
     navigator.clipboard?.writeText(email).catch(() => {});
     setCopiedEmail(true);
     window.setTimeout(() => setCopiedEmail(false), 2000);
