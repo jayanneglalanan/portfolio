@@ -101,7 +101,7 @@ export const portfolio = {
       year: "2026",
       role: "Frontend Developer / UI UX Designer",
       org: "AnwarTechLabs",
-      description: "Turning ideas into clean, intuitive, and practical digital experiences.",
+      description: "Building websites, mobile apps, and progressive systems for clients use.",
     },
   ] satisfies Experience[],
 
