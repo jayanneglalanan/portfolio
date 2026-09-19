@@ -1,0 +1,18 @@
+/* TEAM */
+  Name: Jay Anne Gua-an Lalanan
+  Role: Frontend Developer & UI/UX Designer
+  Site: https://www.jayanne.site
+  Location: Bukidnon, Philippines
+  Org: AnwarTechLabs
+  Education: BSIT 2026 - PHINMA Cagayan de Oro College
+  Intern: SupportZebra - Cagayan de Oro City
+  Contact: jayanneglalanan@gmail.com
+  GitHub: https://github.com/jayanneglalanan
+  Instagram: https://www.instagram.com/jayyyyyanne
+
+/* SITE */
+  Last update: 2026-09-19
+  Language: en-PH
+  Doctype: HTML5
+  Standards: HTML5, CSS3, ES2023
+  Components: React 19, TypeScript, Tailwind CSS, Framer Motion

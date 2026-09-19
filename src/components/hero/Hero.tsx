@@ -38,9 +38,10 @@ export function Hero() {
         </motion.div>
 
         <motion.div {...stagger(0.08)} className="mt-7">
-          <h1 className="font-mono text-[34px] sm:text-[38px] font-[400] leading-[0.96] tracking-[-0.025em] text-ink whitespace-nowrap">
+          <h1 className="font-mono text-[28px] sm:text-[32px] font-[400] leading-[0.96] tracking-[-0.025em] text-ink">
             Jay Anne Lalanan
           </h1>
+          <p className="sr-only">Jay Anne Gua-an Lalanan - Frontend Developer & UI/UX Designer at AnwarTechLabs, PHINMA Cagayan de Oro College BSIT 2026, Bukidnon Philippines</p>
         </motion.div>
 
         <motion.div
@@ -66,10 +67,11 @@ export function Hero() {
         <div className="min-w-0">
           <motion.h1
             {...stagger(0.06)}
-            className="font-mono text-[40px] font-[400] leading-[0.96] tracking-[-0.025em] text-ink whitespace-nowrap"
+            className="font-mono text-[34px] font-[400] leading-[0.96] tracking-[-0.025em] text-ink"
           >
             Jay Anne Lalanan
           </motion.h1>
+          <p className="sr-only">Jay Anne Gua-an Lalanan - Frontend Developer & UI/UX Designer at AnwarTechLabs, PHINMA Cagayan de Oro College BSIT 2026, Bukidnon Philippines</p>
           <motion.div
             {...stagger(0.14)}
             className="mt-5 max-w-[380px] space-y-[20px] font-sans text-[15px] leading-[1.7] text-secondary"
@@ -94,10 +96,11 @@ export function Hero() {
         <div className="min-w-0">
           <motion.h1
             {...stagger(0.06)}
-            className="font-mono text-[44px] font-[400] leading-[0.96] tracking-[-0.025em] text-ink whitespace-nowrap"
+            className="font-mono text-[38px] font-[400] leading-[0.96] tracking-[-0.025em] text-ink"
           >
             Jay Anne Lalanan
           </motion.h1>
+          <p className="sr-only">Jay Anne Gua-an Lalanan - Frontend Developer & UI/UX Designer at AnwarTechLabs, PHINMA Cagayan de Oro College BSIT 2026, Bukidnon Philippines</p>
 
           <motion.div
             {...stagger(0.14)}
