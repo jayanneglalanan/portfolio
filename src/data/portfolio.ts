@@ -115,7 +115,7 @@ export const portfolio = {
   about: {
     paragraphs: [
       "I'm Jay Anne Gua-an Lalanan, a curious mind who turns random thoughts into digital products.",
-      "I love vibecoding, experimenting with ideas, and building interfaces that feel different. From a simple concept to a fully crafted interaction, I enjoy the process of bringing imagination into code.",
+      "I love coding, experimenting with ideas, and building interfaces that feel different. From a simple concept to a fully crafted interaction, I enjoy the process of bringing imagination into code.",
       "With a background in technical troubleshooting and system setup, I approach challenges with curiosity and a problem-solving mindset.",
     ],
   },
