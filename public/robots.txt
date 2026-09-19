@@ -1,0 +1,8 @@
+# robots.txt - allow all search engines to crawl the site
+# https://developers.google.com/search/docs/crawling-indexing/robots/intro
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.jayanne.site/sitemap.xml
