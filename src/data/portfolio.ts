@@ -33,8 +33,8 @@ export type TechGroup = {
 
 export const portfolio = {
   name: "Jay Anne Gua-an Lalanan",
-  intro: "Frontend Developer & UI/UX Designer with a BSIT background.",
-  bio: "Creating clean interfaces, responsive experiences, and practical digital products at AnwarTechLabs.",
+  intro: "Frontend Developer & UI/UX Designer, I love crafting cool things that stand out.",
+  bio: "I enjoy turning random thoughts into modern interfaces that feel as good as they look.",
   socialLinks: [
     { label: "github", href: "https://github.com/jayanneglalanan" },
     { label: "anwartechlabs", href: "https://anwartechlabs.com" },
@@ -114,9 +114,9 @@ export const portfolio = {
 
   about: {
     paragraphs: [
-      "I'm Jay Anne Gua-an Lalanan, a BSIT graduate, Frontend Developer, and UI/UX Designer at AnwarTechLabs.",
-      "I focus on creating clean, practical, and user-friendly digital experiences that solve real-world problems.",
-      "My internship experience centered on technical troubleshooting, device formatting, system setup, remote assistance, and resolving hardware and software issues. It gave me a practical mindset that I bring into every project I work on.",
+      "I'm Jay Anne Gua-an Lalanan, a curious mind who turns random thoughts into digital products.",
+      "I love vibecoding, experimenting with ideas, and building interfaces that feel different. From a simple concept to a fully crafted interaction, I enjoy the process of bringing imagination into code.",
+      "With a background in technical troubleshooting and system setup, I approach challenges with curiosity and a problem-solving mindset.",
     ],
   },
 

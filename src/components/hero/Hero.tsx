@@ -49,7 +49,7 @@ export function Hero() {
           className="mt-5 max-w-[380px] space-y-[20px] font-sans text-[15px] leading-[1.7] text-secondary"
         >
           <p>{portfolio.intro}</p>
-          <p>{portfolio.bio}</p>
+          {portfolio.bio ? <p>{portfolio.bio}</p> : null}
         </motion.div>
 
         <motion.div {...stagger(0.22)} className="mt-7">
@@ -77,7 +77,7 @@ export function Hero() {
             className="mt-5 max-w-[380px] space-y-[20px] font-sans text-[15px] leading-[1.7] text-secondary"
           >
             <p>{portfolio.intro}</p>
-            <p>{portfolio.bio}</p>
+            {portfolio.bio ? <p>{portfolio.bio}</p> : null}
           </motion.div>
           <motion.div {...stagger(0.22)} className="mt-6">
             <SocialLinks links={portfolio.socialLinks} />
@@ -107,7 +107,7 @@ export function Hero() {
             className="mt-5 max-w-[380px] space-y-[22px] font-sans text-[15px] leading-[1.7] text-secondary"
           >
             <p>{portfolio.intro}</p>
-            <p>{portfolio.bio}</p>
+            {portfolio.bio ? <p>{portfolio.bio}</p> : null}
           </motion.div>
 
           <motion.div {...stagger(0.22)} className="mt-7">
